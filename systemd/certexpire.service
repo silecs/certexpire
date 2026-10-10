@@ -1,0 +1,26 @@
+# The file ~/.config/certexpire.env should contain a line
+# TARGETS = a.com b.org
+#
+# This user service will check the expiration date
+#  of the TLS certificates of these targets,
+#  and display a notification if any is too soon (10 days by default).
+
+[Unit]
+Description=Check TLS certificates and notify errors
+OnFailure=notify-failure.service
+
+[Service]
+
+EnvironmentFile=%E/certexpire.env
+# For a user service, %E maps to "$XDG_CONFIG_HOME",
+#   see "Specifiers" in `man systemd.unit`.
+
+ExecStart=%h/.local/bin/certexpire $TARGETS
+# If the executable is not in /usr/local/bin/ or /usr/bin/,
+#   an absolute path is mandatory.
+# The command does not use the syntax ${TARGETS},
+#   so the variable will be expanded in multiple arguments.
+# See "COMMAND LINES" in `man systemd.service` for details.
+
+# No [Install] so `systemctl enable` won't work with this unit.
+# Use `systemctl start` or the timer.

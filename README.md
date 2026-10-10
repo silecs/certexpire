@@ -31,6 +31,19 @@ ERROR [silecs.info:443 TLS 1.3] expires in 68 days
 ERROR [littre.org:443 TLS 1.3] expires in 47 days
 ```
 
+Notifications
+-------------
+
+The intended usage was to create a periodical task
+that would run daily on my PC and notify me directly.
+
+```
+cp certexpire ~/.local/bin/
+cp systemd/* ~/.config/systemd/user/
+echo "TARGETS=littre.org silecs.info" > ~/.config/certexpire.env
+systemct --user enable --now certexpire.timer
+```
+
 Nota bene
 ---------
 Here, 1 day == 24 hours.
