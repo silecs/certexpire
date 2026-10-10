@@ -2,8 +2,10 @@
 Description=Check TLS certificates every day
 
 [Timer]
+
 # Start the unit 1 day after that last start.
 OnUnitActiveSec=1d
+
 # Include the system downtime in that time.
 # Useful when the computer is not always on.
 Persistent=true

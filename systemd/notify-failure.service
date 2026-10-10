@@ -7,9 +7,9 @@ Description=Notify user about service failure
 [Service]
 ExecStart=/bin/sh -c 'notify-send --urgency critical $MONITOR_UNIT "$$(journalctl --user -I -u $MONITOR_UNIT --output=cat | grep -E ^ERROR)"'
 # $MONITOR_UNIT is set by systemd when the unit is triggered
-# by a directive "OnFailure=".
+#   by a directive "OnFailure=".
 # See `man systemd.exec` for details and an example.
 #
 # An alternative would be to make this a template unit,
-# attach it with @%N from the dependant unit,
-# then read the instance %i/%I specifier in this unit.
+#   attach it with @%N from the dependant unit,
+#   then read the instance %i/%I specifier in this unit.

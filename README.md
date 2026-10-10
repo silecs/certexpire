@@ -9,6 +9,9 @@ The parsing of certificates comes from the excellent
 
 Install
 -------
+The *Releases* page has Deb/Arch packages, and archives with the executable.
+
+To build from source:
 ```
 go build .
 ```
@@ -17,7 +20,7 @@ Examples
 --------
 
 Check if https://littre.org:443 has a valid certificate
-that is valid for at least 10 days (default)
+with an expiration date in more than least 10 days (default).
 ```
 $ certexpire littre.org
 ```
@@ -37,12 +40,22 @@ Notifications
 The intended usage was to create a periodical task
 that would run daily on my PC and notify me directly.
 
-```
+The commands below reach this goal:
+```sh
 cp certexpire ~/.local/bin/
 cp systemd/* ~/.config/systemd/user/
 echo "TARGETS=littre.org silecs.info" > ~/.config/certexpire.env
-systemct --user enable --now certexpire.timer
+# Test
+systemctl --user start certexpire.unit
+# Activate the daily task, starting now and at next session opening
+systemctl --user enable --now certexpire.timer
 ```
+If the executable is not in `~/.local/bin/`
+(the Debian package puts it in `/usr/bin/`)
+then the file `certexpire.service` must be amended.
+
+Notifications work thanks to systemd user services and the `notify-send` command.
+The files in `systemd/` contains many comments to explain the process.
 
 Nota bene
 ---------
