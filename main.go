@@ -10,7 +10,7 @@ import (
 	"github.com/pete911/certinfo/pkg/cert"
 )
 
-var version = "0.1"
+var version = "0.2"
 
 func main() {
 	flags, err := ParseFlags()
