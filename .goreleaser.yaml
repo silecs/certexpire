@@ -1,0 +1,53 @@
+# Release build: `git tag v1.0 && git push --tags` triggers this CI pipeline.
+# Local run: goreleaser release --snapshot --clean
+
+version: 2
+project_name: certexpire
+
+builds:
+  -
+    # Environment variables
+    # Here used to build statically.
+    env: [CGO_ENABLED=0]
+    # Build options
+    flags: [-trimpath]
+
+    # GOOS list to build for.
+    # Default: [ 'darwin', 'linux', 'windows' ]
+    goos: [linux, darwin]
+    # GOARCH to build for.
+    # Default: [ '386', 'amd64', 'arm64' ]
+    goarch: [amd64, arm64]
+    # GOAMD64 to build when GOARCH is amd64
+    # Default: [ 'v1' ]
+    goamd64: [v1]
+
+archives:
+  -
+    wrap_in_directory: true
+
+# nfpm builds .deb, .rpm and Arch packages.
+nfpms:
+  -
+    formats:
+      - deb
+      - archlinux
+    description: |
+      Simple tool that warns when TLS certificates will soon expire.
+      Provides systemd integration for desktop notifications.
+    recommends:
+      - libnotify-bin
+      - systemd
+    contents:
+      - src: README.md
+        dst: "/usr/share/doc/{{ .PackageName }}/README.md"
+      - src: systemd
+        dst: "/usr/share/doc/{{ .PackageName }}/systemd"
+      - packager: deb
+        src: LICENSE
+        dst: "/usr/share/doc/{{ .PackageName }}/LICENSE"
+      - packager: archLinux
+        src: LICENSE
+        dst: "/usr/share/licenses/{{ .PackageName }}/LICENSE"
+    license: MIT
+    section: utils
