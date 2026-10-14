@@ -3,11 +3,16 @@ Description=Check TLS certificates every day
 
 [Timer]
 
-# Start the unit 1 day after that last start.
-OnUnitActiveSec=1d
+# Start the unit every morning.
+OnCalendar=*-*-* 00:05:00
 
-# Include the system downtime in that time.
-# Useful when the computer is not always on.
+# Avoid synchronous hammering in general.
+RandomizedDelaySec=1h
+
+# If the system was down at the time of launch,
+# then start the unit as soon as the system is alive
+# and the time is set/synchronized.
+# Only effective with a OnCalendar= directive.
 Persistent=true
 
 [Install]

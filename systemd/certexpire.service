@@ -12,10 +12,12 @@ OnFailure=notify-failure.service
 
 [Service]
 
+# Load the list of monitored hostnames.
 EnvironmentFile=%E/certexpire.env
 # This is a user service, so %E maps to "$XDG_CONFIG_HOME".
-#   For details see "Specifiers" in `man systemd.unit`.
+# For details see "Specifiers" in `man systemd.unit`.
 
+# Run the local executable.
 ExecStart=%h/.local/bin/certexpire $TARGETS
 # Fix or remove the absolute path if necessary.
 #   The deb package will install into /usr/bin ;
@@ -28,4 +30,4 @@ ExecStart=%h/.local/bin/certexpire $TARGETS
 
 # This file intentionally has no [Install] block,
 #   so `systemctl enable` won't work with this unit.
-# Use `systemctl enable|start` on the timer.
+# Apply `systemctl enable|start` on the timer.
