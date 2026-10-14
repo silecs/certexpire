@@ -25,6 +25,7 @@ builds:
 archives:
   -
     wrap_in_directory: true
+    formats: ["tar.gz"]
 
 # nfpm builds .deb, .rpm and Arch packages.
 nfpms:
